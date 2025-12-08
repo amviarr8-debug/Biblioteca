@@ -42,45 +42,4 @@ public class Libro {
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Prestamo> prestamos = new HashSet<>();
 
-    public Set<Prestamo> getPrestamos() {
-        return prestamos;
-    }
-
-    public void setPrestamos(Set<Prestamo> prestamos) {
-        this.prestamos = prestamos;
-    }
-
-
-
-    public int getLibro_id() {
-        return libro_id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getAutor() {
-        return autor;
-    }
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public String getIsbn() {
-        return isbn;
-    }
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
 }

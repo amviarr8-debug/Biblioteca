@@ -4,4 +4,6 @@ import com.example.biblioteca.model.Prestamo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PrestamoRepositorio extends JpaRepository<Prestamo, Integer> {
+
+    int countBySocioIdAndFechaDevolucionIsNull(int socioId);
 }

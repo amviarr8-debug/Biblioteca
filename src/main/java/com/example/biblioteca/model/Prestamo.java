@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Entity
@@ -27,7 +25,7 @@ public class Prestamo {
     @Column(nullable = false)
     private LocalDateTime fecha_limite;
     @Column(nullable = true)
-    private LocalDateTime fecha_devolución;
+    private LocalDateTime fecha_devolucion;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
