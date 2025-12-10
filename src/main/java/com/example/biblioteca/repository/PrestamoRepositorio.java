@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PrestamoRepositorio extends JpaRepository<Prestamo, Integer> {
 
-    int countBySocioIdAndFechaDevolucionIsNull(int socioId);
+    int countBySocioSocioIdAndFechaDevolucionIsNull(int socioId);
 }

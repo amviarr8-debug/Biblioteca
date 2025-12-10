@@ -18,14 +18,14 @@ public class Prestamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private int presatmo_id;
+    private int presatmoId;
 
     @Column(nullable = false)
-    private LocalDateTime fecha_prestamo;
+    private LocalDateTime fechaPrestamo;
     @Column(nullable = false)
-    private LocalDateTime fecha_limite;
+    private LocalDateTime fechaLimite;
     @Column(nullable = true)
-    private LocalDateTime fecha_devolucion;
+    private LocalDateTime fechaDevolucion;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore

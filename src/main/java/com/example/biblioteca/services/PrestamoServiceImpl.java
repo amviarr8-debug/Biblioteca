@@ -55,11 +55,11 @@ public class PrestamoServiceImpl implements PrestamoService {
         if (estaPenalizado(socio)) {
             // !!!!!! Crearemos en siguientes versiones una excepción personalizada aquí.
             // Tambien que si la lanza abra un cuadro de alerta.
-            throw new IllegalStateException("El socio está penalizado hasta: " + socio.getFecha_fin_penalizacion());
+            throw new IllegalStateException("El socio está penalizado hasta: " + socio.getFechaFinPenalizacion());
         }
 
         // Bloqueo por Máximo de Préstamos ---
-        int prestamosActivos = prestamoRepository.countBySocioIdAndFechaDevolucionIsNull(socio.getSocio_id());
+        int prestamosActivos = prestamoRepository.countBySocioSocioIdAndFechaDevolucionIsNull(socio.getSocioId());
 
         if (prestamosActivos >= MAX_PRESTAMOS_ACTIVOS) {
             // !!!!!!!Crearemos en siguientes versiones una excepción personalizada aquí.
@@ -70,9 +70,9 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         LocalDateTime fechaPrestamo = LocalDateTime.now();
 
-        prestamo.setFecha_prestamo(fechaPrestamo);
+        prestamo.setFechaPrestamo(fechaPrestamo);
         // Fecha limite de 2 días
-        prestamo.setFecha_limite(fechaPrestamo.plusDays(DURACION_PRESTAMO_DIAS));
+        prestamo.setFechaLimite(fechaPrestamo.plusDays(DURACION_PRESTAMO_DIAS));
 
         return prestamoRepository.save(prestamo);
     }
@@ -80,7 +80,7 @@ public class PrestamoServiceImpl implements PrestamoService {
     // Metodo auxiliar para comprobar la penalización
 
     private boolean estaPenalizado(Socio socio) {
-        LocalDate finPenalizacion = socio.getFecha_fin_penalizacion();
+        LocalDate finPenalizacion = socio.getFechaFinPenalizacion();
 
         // Si no hay fecha de fin o la fecha ya pasó, NO está penalizado.
         if (finPenalizacion == null) {
@@ -101,13 +101,13 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         // Marca la devolución
         LocalDateTime fechaDevolucion = LocalDateTime.now();
-        prestamo.setFecha_devolucion(fechaDevolucion);
+        prestamo.setFechaDevolucion(fechaDevolucion);
 
         // Calcula el Retraso y Penalización
-        if (fechaDevolucion.isAfter(prestamo.getFecha_limite())) {
+        if (fechaDevolucion.isAfter(prestamo.getFechaLimite())) {
 
             // Cálculo de días de retraso sin tener en cuenta hora ni nada
-             long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFecha_limite().toLocalDate(), fechaDevolucion.toLocalDate());
+             long diasRetraso = ChronoUnit.DAYS.between(prestamo.getFechaLimite().toLocalDate(), fechaDevolucion.toLocalDate());
 
             // Penalizacion del socio durante 2 días por cada dia de retraso y lo aplicamos
             long diasPenalizacion = diasRetraso * 2;
@@ -122,15 +122,15 @@ public class PrestamoServiceImpl implements PrestamoService {
     private void aplicarPenalizacion(Socio socio, long diasPenalizacion) {
 
         // La penalización se añade a la fecha actual o a la penalización existente
-        LocalDate inicioPenalizacion = socio.getFecha_fin_penalizacion() != null
-                && socio.getFecha_fin_penalizacion().isAfter(LocalDate.now())
-                ? socio.getFecha_fin_penalizacion()
+        LocalDate inicioPenalizacion = socio.getFechaFinPenalizacion() != null
+                && socio.getFechaFinPenalizacion().isAfter(LocalDate.now())
+                ? socio.getFechaFinPenalizacion()
                 : LocalDate.now();
 
         LocalDate nuevaFechaFin = inicioPenalizacion.plusDays(diasPenalizacion);
 
         socio.setEstado(EstadoSocio.SANCIONADO);
-        socio.setFecha_fin_penalizacion(nuevaFechaFin);
+        socio.setFechaFinPenalizacion(nuevaFechaFin);
 
         socioRepository.save(socio); // Actualiza el socio en la BD
     }

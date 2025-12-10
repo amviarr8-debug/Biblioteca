@@ -2,7 +2,6 @@ package com.example.biblioteca.controller;
 import com.example.biblioteca.model.Prestamo;
 import com.example.biblioteca.services.PrestamoServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
@@ -27,7 +26,7 @@ public class PrestamoRestController {
     public ResponseEntity<Prestamo> crearPrestamo(@RequestBody Prestamo prestamo) {
 
         // Lógica Básica de Alta (sin la regla de los 2 días)
-        prestamo.setFecha_prestamo(LocalDateTime.now());
+        prestamo.setFechaPrestamo(LocalDateTime.now());
 
         Prestamo nuevoPrestamo = prestamoServiceImpl.save(prestamo);
         // Devuelve el objeto creado con código de estado 201 (Created)

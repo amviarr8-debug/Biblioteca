@@ -1,8 +1,6 @@
 package com.example.biblioteca.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,7 +19,7 @@ public class Socio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private int socio_id;
+    private int socioId;
 
     //propiedades de la columna
     @Size(max = 50)
@@ -38,17 +36,17 @@ public class Socio {
     private String email;
 
     @Column(name = "fecha_nacimiento", nullable = false)
-    private LocalDate fecha_nacimiento; // Usar LocalDate para tipos DATE de SQL
+    private LocalDate fechaNacimiento; // Usar LocalDate para tipos DATE de SQL
 
     @Column(name = "fecha_alta", nullable = false)
-    private LocalDate fecha_alta;
+    private LocalDate fechaAlta;
 
     @Enumerated(EnumType.STRING) // Guarda el nombre del ENUM como String en la BD
     @Column(length = 15, nullable = false) // 'ACTIVO' o 'SANCIONADO'
     private EstadoSocio estado;
 
     @Column(name = "fecha_fin_penalizacion", nullable = true) // 'nullable = true' refleja el requisito 'nullable'
-    private LocalDate fecha_fin_penalizacion;
+    private LocalDate fechaFinPenalizacion;
 
     @OneToMany(mappedBy = "socio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Prestamo> prestamos = new HashSet<>();
@@ -56,7 +54,7 @@ public class Socio {
 
     @PrePersist
     public void prePersist() {
-        this.fecha_alta = LocalDate.now();
+        this.fechaAlta = LocalDate.now();
     } //se asigna la fecha actual cuando se crea el socio
 
 }

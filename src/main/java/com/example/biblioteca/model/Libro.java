@@ -19,7 +19,7 @@ public class Libro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private int libro_id;
+    private int libroId;
 
     @Size(max = 100)
     @Column(length = 100, nullable = false)
