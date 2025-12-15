@@ -32,6 +32,6 @@ public class SocioServiceImpl implements SocioService {
 
     @Override
     public void deleteById(int id) {
-
+        socioRespositorio.deleteById(id);
     }
 }

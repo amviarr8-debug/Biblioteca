@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${socio.socioId} ? 'Modificar Socio' : 'Registrar Nuevo Socio'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 th:text="${socio.socioId} ? '✏️ Modificar Socio' : '👥 Registrar Nuevo Socio'"></h1>
+    <a th:href="@{/web/socios}" class="btn btn-secondary mb-3">← Volver al Listado</a>
+
+    <form th:action="${socio.socioId} ? @{/web/socios/modificar/{id}(id=${socio.socioId})} : @{/web/socios/alta}"
+          th:object="${socio}"
+          method="post">
+
+        <input type="hidden" th:field="*{socioId}" />
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" id="nombre" th:field="*{nombre}" class="form-control" />
+            <span th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="apellidos" class="form-label">Apellidos:</label>
+            <input type="text" id="apellidos" th:field="*{apellidos}" class="form-control" />
+            <span th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" th:field="*{email}" class="form-control" />
+            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="fechaNacimiento" class="form-label">Fecha Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" th:field="*{fechaNacimiento}" class="form-control" />
+            <span th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" th:text="${socio.socioId} ? 'Actualizar Socio' : 'Guardar Socio'"></button>
+    </form>
+</div>
+</body>
+</html>

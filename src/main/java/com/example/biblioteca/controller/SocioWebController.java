@@ -53,11 +53,11 @@ public class SocioWebController {
             return "formulario-socio";
         }
         Socio socioExistente = socioService.findById(id).orElseThrow(() -> new IllegalArgumentException("ID de socio inválido:" + id));
-
+        // campos editables
         socioExistente.setNombre(socioDesdeFormulario.getNombre());
         socioExistente.setApellidos(socioDesdeFormulario.getApellidos());
         socioExistente.setEmail(socioDesdeFormulario.getEmail());
-
+        socioExistente.setFechaNacimiento(socioDesdeFormulario.getFechaNacimiento());
         socioService.save(socioExistente);
 
         return "redirect:/web/socios";

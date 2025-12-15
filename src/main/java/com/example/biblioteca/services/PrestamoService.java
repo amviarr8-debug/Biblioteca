@@ -11,8 +11,7 @@ public interface PrestamoService {
     Optional<Prestamo> findById(int id);
     List<Prestamo> findAll();
     void deleteById(int id);
-
-    // Lógica de negocio: Dar de alta un préstamo (con la regla de los días)
-    // Recibe el objeto con los IDs de socio y libro, pero SIN fechas.
     Prestamo darAltaPrestamo(Prestamo prestamo);
+    Prestamo devolverPrestamo(int prestamoId);
+
 }

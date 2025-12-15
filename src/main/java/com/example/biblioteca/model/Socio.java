@@ -55,6 +55,11 @@ public class Socio {
     @PrePersist
     public void prePersist() {
         this.fechaAlta = LocalDate.now();
-    } //se asigna la fecha actual cuando se crea el socio
+        if(this.estado == null){
+            this.estado = EstadoSocio.ACTIVO;
+        }
+    } //se asigna la fecha actual cuando se crea el socio y el estado activo
+
+
 
 }

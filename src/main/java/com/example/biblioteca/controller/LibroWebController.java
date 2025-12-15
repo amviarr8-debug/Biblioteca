@@ -58,7 +58,6 @@ public class LibroWebController {
                 .orElseThrow(() -> new IllegalArgumentException("ID de libro inválido:" + id));
 
         //Actualizar solo los campos modificables
-
         libroExistente.setTitulo(libroDesdeFormulario.getTitulo());
         libroExistente.setAutor(libroDesdeFormulario.getAutor());
         libroExistente.setCategoria(libroDesdeFormulario.getCategoria());
