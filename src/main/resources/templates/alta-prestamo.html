@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Préstamo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1 class="mb-4">📚 Registrar Nuevo Préstamo</h1>
+
+    <a th:href="@{/web/prestamos}" class="btn btn-secondary mb-3">← Volver al Listado</a>
+
+    <div th:if="${param.error}" class="alert alert-warning">
+        <p th:text="${param.error}">No se pudo realizar el préstamo.</p>
+    </div>
+
+    <form th:action="@{/web/prestamos/alta}" th:object="${prestamo}" method="post">
+
+        <div class="mb-3">
+            <label for="socio" class="form-label">Socio:</label>
+            <select id="socio" th:field="*{socio}" class="form-select" required>
+                <option value="">-- Seleccione Socio --</option>
+                <option th:each="socio : ${socios}"
+                        th:value="${socio.socio_id}"
+                        th:text="${socio.nombre + ' ' + socio.apellidos + ' (' + socio.estado + ')'}">
+                    Nombre Apellido (ACTIVO)
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="libro" class="form-label">Libro:</label>
+            <select id="libro" th:field="*{libro}" class="form-select" required>
+                <option value="">-- Seleccione Libro --</option>
+                <option th:each="libro : ${libros}"
+                        th:value="${libro.libro_id}"
+                        th:text="${libro.titulo + ' (' + libro.ejemplares_disponibles + ' disponibles)'}">
+                    Título (5 disponibles)
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrar Préstamo</button>
+    </form>
+</div>
+</body>
+</html>
