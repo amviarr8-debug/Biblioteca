@@ -30,7 +30,7 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Override
     public Optional<Prestamo> findById(int id) {
-        return Optional.empty();
+        return prestamoRepository.findById(id);
     }
 
 
@@ -49,7 +49,9 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Override
     public Prestamo darAltaPrestamo(Prestamo prestamo) {
 
-        Socio socio = prestamo.getSocio(); // Asumiendo que el objeto Socio ya viene cargado
+        // Recuperamos el socio completo de la BD para asegurar que tenemos sus fechas de penalización reales
+        Socio socio = socioRepository.findById(prestamo.getSocio().getSocioId())
+                .orElseThrow(() -> new IllegalArgumentException("Socio no encontrado"));
 
         // Bloqueo por Penalización ---
         if (estaPenalizado(socio)) {
@@ -73,6 +75,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         prestamo.setFechaPrestamo(fechaPrestamo);
         // Fecha limite de 2 días
         prestamo.setFechaLimite(fechaPrestamo.plusDays(DURACION_PRESTAMO_DIAS));
+        prestamo.setSocio(socio); // Asignamos el socio completo y gestionado
 
         return prestamoRepository.save(prestamo);
     }

@@ -23,9 +23,8 @@
             <select id="socio" th:field="*{socio}" class="form-select" required>
                 <option value="">-- Seleccione Socio --</option>
                 <option th:each="socio : ${socios}"
-                        th:value="${socio.socio_id}"
+                        th:value="${socio.socioId}"
                         th:text="${socio.nombre + ' ' + socio.apellidos + ' (' + socio.estado + ')'}">
-                    Nombre Apellido (ACTIVO)
                 </option>
             </select>
         </div>
@@ -35,9 +34,8 @@
             <select id="libro" th:field="*{libro}" class="form-select" required>
                 <option value="">-- Seleccione Libro --</option>
                 <option th:each="libro : ${libros}"
-                        th:value="${libro.libro_id}"
-                        th:text="${libro.titulo + ' (' + libro.ejemplares_disponibles + ' disponibles)'}">
-                    Título (5 disponibles)
+                        th:value="${libro.libroId}"
+                        th:text="${libro.titulo}">
                 </option>
             </select>
         </div>

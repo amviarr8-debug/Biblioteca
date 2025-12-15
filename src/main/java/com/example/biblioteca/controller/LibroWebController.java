@@ -22,7 +22,7 @@ public class LibroWebController {
         // Obtenemos la lista de libros del servicio
         model.addAttribute("libros", libroService.findAll());
 
-        // Retorna la vista que se encuentra en /templates/libros/listado.html
+        // Retorna la vista que se encuentra en /templates/libros-listado.html
         return "listado-libros";
     }
 
@@ -49,15 +49,25 @@ public class LibroWebController {
         return "formulario-libro";
     }
 
-//    @PostMapping("/modificar/{id}")
-//    public String actualizarLibro(@PathVariable int id, @Valid @ModelAttribute("libro") Libro libro, BindingResult result) {
-//        if (result.hasErrors()) {
-//            return "formulario-libro";
-//        }
-//        libro.setLibro_id(id); // Asegura que el ID del libro se mantenga
-//        libroService.save(libro);
-//        return "redirect:/web/libros";
-//    }
+    @PostMapping("/modificar/{id}")
+    public String actualizarLibro(@PathVariable int id, @Valid @ModelAttribute("libro") Libro libroDesdeFormulario, BindingResult result) {
+        if (result.hasErrors()) {
+            return "formulario-libro";
+        }
+        Libro libroExistente = libroService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("ID de libro inválido:" + id));
+
+        //Actualizar solo los campos modificables
+
+        libroExistente.setTitulo(libroDesdeFormulario.getTitulo());
+        libroExistente.setAutor(libroDesdeFormulario.getAutor());
+        libroExistente.setCategoria(libroDesdeFormulario.getCategoria());
+        libroExistente.setIsbn(libroDesdeFormulario.getIsbn());
+
+        libroService.save(libroExistente);
+
+        return "redirect:/web/libros";
+    }
 
     @GetMapping("/baja/{id}")
     public String eliminarLibro(@PathVariable int id) {

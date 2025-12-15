@@ -27,7 +27,7 @@ public class SocioServiceImpl implements SocioService {
 
     @Override
     public List<Socio> findAll() {
-        return List.of();
+        return socioRespositorio.findAll();
     }
 
     @Override

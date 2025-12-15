@@ -78,7 +78,7 @@ public class PrestamoWebController {
         return "redirect:/web/prestamos";
     }
 
-    // --- 5. Procesar Devolución (V3: Con Cálculo de Penalización) ---
+//     --- 5. Procesar Devolución (V3: Con Cálculo de Penalización) ---
 //    @Operation(summary = "Procesa la devolución de un libro.",
 //            description = "Registra la fecha de devolución, calcula el retraso e impone la penalización (2 días por día de retraso) si aplica.")
 //    @GetMapping("/devolver/{id}")

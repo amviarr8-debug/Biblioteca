@@ -26,15 +26,15 @@
         </thead>
         <tbody>
         <tr th:each="socio : ${socios}">
-            <td th:text="${socio.socio_id}">1</td>
-            <td th:text="${socio.nombre + ' ' + socio.apellidos}">Nombre Apellido</td>
-            <td th:text="${socio.email}">correo@example.com</td>
+            <td th:text="${socio.socioId}"></td>
+            <td th:text="${socio.nombre + ' ' + socio.apellidos}"></td>
+            <td th:text="${socio.email}"></td>
             <td th:text="${socio.estado}"
-                th:classappend="${socio.estado == 'SANCIONADO' ? 'text-danger fw-bold' : 'text-success'}">ACTIVO</td>
-            <td th:text="${socio.fecha_fin_penalizacion} ? ${#temporals.format(socio.fecha_fin_penalizacion, 'dd-MM-yyyy HH:mm')} : 'N/A'">01-01-2026</td>
+                th:classappend="${socio.estado == 'SANCIONADO' ? 'text-danger fw-bold' : 'text-success'}"></td>
+            <td th:text="${socio.fechaFinPenalizacion} ? ${#temporals.format(socio.fechaFinPenalizacion, 'dd-MM-yyyy HH:mm')} : 'N/A'"></td>
             <td>
-                <a th:href="@{/web/socios/modificar/{id}(id=${socio.socio_id})}" class="btn btn-warning btn-sm me-2">Modificar</a>
-                <a th:href="@{/web/socios/baja/{id}(id=${socio.socio_id})}" class="btn btn-danger btn-sm"
+                <a th:href="@{/web/socios/modificar/{id}(id=${socio.socioId})}" class="btn btn-warning btn-sm me-2">Modificar</a>
+                <a th:href="@{/web/socios/baja/{id}(id=${socio.socioId})}" class="btn btn-danger btn-sm"
                    onclick="return confirm('¿Confirma la baja del socio?')">Baja</a>
             </td>
         </tr>

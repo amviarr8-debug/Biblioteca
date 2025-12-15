@@ -17,10 +17,6 @@ public class SocioWebController {
 
     private final SocioService socioService;
 
-    /**
-     * Muestra el listado completo de socios.
-     * URL: /web/socios
-     */
     @GetMapping
     public String listarSocios(Model model) {
         model.addAttribute("socios", socioService.findAll());
@@ -51,15 +47,21 @@ public class SocioWebController {
         return "formulario-socio";
     }
 
-//    @PostMapping("/modificar/{id}")
-//    public String actualizarSocio(@PathVariable int id, @Valid @ModelAttribute("socio") Socio socio, BindingResult result) {
-//        if (result.hasErrors()) {
-//            return "formulario-socio";
-//        }
-//        socio.setSocioId(id); // Asegura que el ID del socio se mantenga
-//        socioService.save(socio);
-//        return "redirect:/web/socios";
-//    }
+    @PostMapping("/modificar/{id}")
+    public String actualizarSocio(@PathVariable int id, @Valid @ModelAttribute("socio") Socio socioDesdeFormulario, BindingResult result) {
+        if (result.hasErrors()) {
+            return "formulario-socio";
+        }
+        Socio socioExistente = socioService.findById(id).orElseThrow(() -> new IllegalArgumentException("ID de socio inválido:" + id));
+
+        socioExistente.setNombre(socioDesdeFormulario.getNombre());
+        socioExistente.setApellidos(socioDesdeFormulario.getApellidos());
+        socioExistente.setEmail(socioDesdeFormulario.getEmail());
+
+        socioService.save(socioExistente);
+
+        return "redirect:/web/socios";
+    }
 
     @GetMapping("/baja/{id}")
     public String eliminarSocio(@PathVariable int id) {

@@ -30,20 +30,20 @@
     </thead>
     <tbody>
     <tr th:each="prestamo : ${prestamos}">
-      <td th:text="${prestamo.prestamo_id}">1</td>
-      <td th:text="${prestamo.socio.nombre + ' ' + prestamo.socio.apellidos}">Ana Gómez</td>
-      <td th:text="${prestamo.libro.titulo}">Cien años de soledad</td>
-      <td th:text="${#temporals.format(prestamo.fecha_prestamo, 'dd-MM-yyyy HH:mm')}">07/12/2025</td>
-      <td th:text="${#temporals.format(prestamo.fecha_limite, 'dd-MM-yyyy HH:mm')}">09/12/2025</td>
-      <td th:text="${prestamo.fecha_devolucion} ? ${#temporals.format(prestamo.fecha_devolucion, 'dd-MM-yyyy HH:mm')} : 'Activo'">Activo/Devuelto</td>
+      <td th:text="${prestamo.presatmoId}"></td>
+      <td th:text="${prestamo.socio.nombre + ' ' + prestamo.socio.apellidos}"></td>
+      <td th:text="${prestamo.libro.titulo}"></td>
+      <td th:text="${#temporals.format(prestamo.fechaPrestamo, 'dd-MM-yyyy HH:mm')}"></td>
+      <td th:text="${#temporals.format(prestamo.fechaLimite, 'dd-MM-yyyy HH:mm')}"></td>
+      <td th:text="${prestamo.fechaDevolucion} ? ${#temporals.format(prestamo.fechaDevolucion, 'dd-MM-yyyy HH:mm')} : 'Activo'"></td>
       <td>
-        <a th:if="${prestamo.fecha_devolucion == null}"
-           th:href="@{/web/prestamos/devolver/{id}(id=${prestamo.prestamo_id})}"
+        <a th:if="${prestamo.fechaDevolucion == null}"
+           th:href="@{/web/prestamos/devolver/{id}(id=${prestamo.presatmoId})}"
            class="btn btn-primary btn-sm me-2"
            onclick="return confirm('¿Confirma la devolución? Se aplicarán penalizaciones si hay retraso.')">
           Devolver
         </a>
-        <a th:href="@{/web/prestamos/baja/{id}(id=${prestamo.prestamo_id})}"
+        <a th:href="@{/web/prestamos/baja/{id}(id=${prestamo.presatmoId})}"
            class="btn btn-danger btn-sm"
            onclick="return confirm('ADVERTENCIA: ¿Confirma la eliminación del registro? Esto no es una devolución.')">
           Baja
