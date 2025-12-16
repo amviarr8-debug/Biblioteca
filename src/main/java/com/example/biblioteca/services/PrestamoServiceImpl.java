@@ -1,8 +1,11 @@
 package com.example.biblioteca.services;
 
+import com.example.biblioteca.exception.ResourceNotFoundException;
 import com.example.biblioteca.model.EstadoSocio;
+import com.example.biblioteca.model.Libro;
 import com.example.biblioteca.model.Prestamo;
 import com.example.biblioteca.model.Socio;
+import com.example.biblioteca.repository.LibroRepositorio;
 import com.example.biblioteca.repository.PrestamoRepositorio;
 import com.example.biblioteca.repository.SocioRespositorio;
 import org.springframework.stereotype.Service;
@@ -20,6 +23,7 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     private final PrestamoRepositorio prestamoRepository;
     private final SocioRespositorio socioRepository; // Necesario para penalizaciones
+    private final LibroRepositorio libroRepositorio; // para el alta de REST
     private static final int MAX_PRESTAMOS_ACTIVOS = 3;
     private static final int DURACION_PRESTAMO_DIAS = 2;
 
@@ -51,7 +55,7 @@ public class PrestamoServiceImpl implements PrestamoService {
 
         // Recuperamos el socio completo de la BD para asegurar que tenemos sus fechas de penalización reales
         Socio socio = socioRepository.findById(prestamo.getSocio().getSocioId())
-                .orElseThrow(() -> new IllegalArgumentException("Socio no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Socio no encontrado"));
 
         // Bloqueo por Penalización ---
         if (estaPenalizado(socio)) {
@@ -119,6 +123,30 @@ public class PrestamoServiceImpl implements PrestamoService {
         }
 
         return prestamoRepository.save(prestamo);
+    }
+
+    // este metodo se crea para poder ser utilizado por el controller REST porque no manweja objetos completos de la clases Libro o Socio
+    @Override
+    public Prestamo darAltaPrestamo(Integer socioId, Integer libroId) {
+        if (socioId == null) {
+            throw new IllegalArgumentException("El ID del socio no puede ser nulo.");
+        }
+        if (libroId == null) {
+            throw new IllegalArgumentException("El ID del libro no puede ser nulo.");
+        }
+        //Obtener Socio y Libro completos (incluye validación de existencia)
+        Socio socio = socioRepository.findById(socioId)
+                .orElseThrow(() -> new ResourceNotFoundException("Socio no encontrado con ID: " + socioId));
+
+        Libro libro = libroRepositorio.findById(libroId) // Asume que tienes el repo de Libro inyectado
+                .orElseThrow(() -> new ResourceNotFoundException("Libro no encontrado con ID: " + libroId));
+
+        //Crear el objeto Prestamo real
+        Prestamo prestamo = new Prestamo();
+        prestamo.setSocio(socio);
+        prestamo.setLibro(libro);
+        return darAltaPrestamo(prestamo); // implementamos el metodo con la logica sobre penalizaciones en la devolucion
+
     }
 
     // Metodo auxiliar para aplicar la penalización y actualizar el Socio

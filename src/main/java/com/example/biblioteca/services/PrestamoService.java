@@ -13,5 +13,6 @@ public interface PrestamoService {
     void deleteById(int id);
     Prestamo darAltaPrestamo(Prestamo prestamo);
     Prestamo devolverPrestamo(int prestamoId);
+    Prestamo darAltaPrestamo(Integer socioId, Integer libroId);
 
 }

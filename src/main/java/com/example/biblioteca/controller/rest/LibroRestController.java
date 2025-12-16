@@ -1,4 +1,4 @@
-package com.example.biblioteca.controller;
+package com.example.biblioteca.controller.rest;
 
 import com.example.biblioteca.model.Libro;
 import com.example.biblioteca.services.LibroService;

@@ -1,4 +1,4 @@
-package com.example.biblioteca.controller;
+package com.example.biblioteca.controller.web;
 
 
 import org.springframework.stereotype.Controller;
